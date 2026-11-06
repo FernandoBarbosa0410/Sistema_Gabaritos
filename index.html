@@ -1,65 +1,250 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle Financeiro</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Controle de Gabaritos</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<script src="js/script.js" defer></script>
 </head>
+
 <body>
 
-<div class="container">
+<header class="topbar">
+<a href="#" id="logoInicio" class="brand">
+<b class="brand-icon">G</b>
+<span>
+<strong>CONTROLE DE GABARITOS</strong>
+<small>SISTEMA DE LOCALIZAÇÃO</small>
+</span>
+</a>
+<button id="btnAdministrar" class="admin-toggle">⚙ Administração</button>
+</header>
 
-    <aside class="menu">
-        <h2>💰 Finanças</h2>
+<main class="app-shell">
 
-        <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Receitas</a></li>
-            <li><a href="#">Despesas</a></li>
-            <li><a href="#">Relatórios</a></li>
-        </ul>
-    </aside>
+<!-- INÍCIO -->
+<section id="paginaInicial" class="page">
 
-    <main class="conteudo">
-
-        <h1>Painel Financeiro</h1>
-
-        <p class="data">
-            Hoje: 05/06/2026
-        </p>
-
-        <div class="acoes">
-            <button>+ Nova Receita</button>
-            <button>- Nova Despesa</button>
-        </div>
-
-        <div class="cards">
-
-        <div class="card">
-    <h3>💰 Saldo Atual</h3>
-    <p id="saldo">R$ 0,00</p>
+<div class="welcome">
+<h1>Localize seu gabarito</h1>
 </div>
 
-<div class="card">
-    <h3>📈 Receitas</h3>
-    <p id="receitas">R$ 0,00</p>
-</div>
+<div class="process-grid">
 
-<div class="card">
-    <h3>📉 Despesas</h3>
-    <p id="despesas">R$ 0,00</p>
-</div>
-        <div class="grafico">
-            <h2>Resumo Financeiro</h2>
-            <p>Em breve serão exibidos gráficos e relatórios.</p>
-        </div>
+<button class="process-card" data-processo="solda">
+<span class="symbol">⚡</span>
+<strong>Solda Ponto</strong>
+<small>Gabaritos das prateleiras de solda ponto</small>
+<i>→</i>
+</button>
 
-    </main>
+<button class="process-card" data-processo="projecao">
+<span class="symbol">✳</span>
+<strong>Solda Projeção</strong>
+<small>Gabaritos das prateleiras de projeção</small>
+<i>→</i>
+</button>
+
+<button class="process-card" data-processo="prensas">
+<span class="symbol">▤</span>
+<strong>Prensas</strong>
+<small>Gabaritos utilizados nas prensas</small>
+<i>→</i>
+</button>
 
 </div>
 
-<script src="js/script.js"></script>
+<p class="home-note">Consulta rápida</p>
+
+</section>
+
+<!-- CONSULTA -->
+<section id="paginaConsulta" class="page hidden">
+
+<button class="back-link" id="btnVoltar">
+← Voltar aos processos
+</button>
+
+<div class="page-heading">
+<div>
+<p class="eyebrow">CONSULTA POR PROCESSO</p>
+<h1 id="tituloProcesso">Solda Ponto</h1>
+<p>Pesquisa de gabaritos</p>
+</div>
+<span class="total-pill" id="totalCategoria">0 gabaritos</span>
+</div>
+
+<section class="search-panel">
+
+<label for="pesquisaCodigo">Pesquisar gabarito</label>
+
+<div class="search-input">
+<span>⌕</span>
+<input
+id="pesquisaCodigo"
+type="search"
+inputmode="numeric"
+placeholder="Digite o código..."
+autocomplete="off"
+>
+<button id="limparPesquisa" title="Limpar">×</button>
+</div>
+
+<small>A lista é filtrada automaticamente enquanto você digita.</small>
+
+</section>
+
+<div class="results-layout">
+
+<section class="list-panel">
+
+<div class="list-heading">
+<div>
+<h2>Gabaritos cadastrados</h2>
+<p id="textoResultados">Lista em ordem numérica crescente</p>
+</div>
+<b id="quantidadeResultados">0</b>
+</div>
+
+<div id="listaGabaritos" class="gabarito-list" aria-live="polite"></div>
+
+</section>
+
+<aside id="painelLocalizacao" class="location-panel">
+
+<div class="placeholder">
+<span>⌖</span>
+<h2>Localização do gabarito</h2>
+<p>Selecione um gabarito.</p>
+</div>
+
+</aside>
+
+</div>
+</section>
+
+<!-- ADMINISTRAÇÃO -->
+<section id="paginaAdmin" class="page hidden">
+
+<button class="back-link" id="btnVoltarAdmin">
+← Voltar à consulta
+</button>
+
+<div class="page-heading">
+<div>
+<p class="eyebrow">MANUTENÇÃO DO CADASTRO</p>
+<h1>Administração de gabaritos</h1>
+<p>Gerenciamento de registros</p>
+</div>
+</div>
+
+<section class="admin-panel">
+
+<form id="formGabarito">
+<input type="hidden" id="registroId">
+
+<div class="form-grid">
+
+<label class="field">
+<span>Código numérico *</span>
+<input id="codigo" required inputmode="numeric" placeholder="Ex.: 1095">
+</label>
+
+<label class="field">
+<span>Processo *</span>
+<select id="processo" required>
+<option value="">Selecione</option>
+<option value="solda">Solda Ponto</option>
+<option value="projecao">Solda Projeção</option>
+<option value="prensas">Prensas</option>
+</select>
+</label>
+
+<label class="field">
+<span>Fileira *</span>
+<select id="fileira" required>
+<option value="">Selecione</option>
+<option>A</option>
+<option>B</option>
+<option>C</option>
+<option>D</option>
+<option>E</option>
+</select>
+</label>
+
+<label class="field">
+<span>Posição numérica *</span>
+<input id="posicao" type="number" min="1" max="999" required placeholder="Ex.: 40">
+</label>
+
+<label class="field full">
+<span>Descrição / nome da peça (opcional)</span>
+<input id="descricao" maxlength="100" placeholder="Ex.: Porta, suporte, reforço...">
+</label>
+
+<label class="field full">
+<span>Observações (opcional)</span>
+<textarea id="observacoes" rows="2"></textarea>
+</label>
+
+</div>
+
+<p id="erroFormulario" class="error" role="alert"></p>
+
+<div class="form-actions">
+<button type="reset" class="light" id="btnLimparForm">Limpar</button>
+<button type="submit" class="primary" id="btnSalvar">Salvar gabarito</button>
+</div>
+
+</form>
+</section>
+
+<section class="admin-panel">
+
+<div class="list-heading">
+<div>
+<h2>Registros cadastrados</h2>
+<p>Todos os processos</p>
+</div>
+<b id="totalAdmin">0</b>
+</div>
+<div class="admin-search">
+    <span>⌕</span>
+    <input
+        type="search"
+        id="pesquisaAdmin"
+        placeholder="Pesquisar por código ou localização..."
+        autocomplete="off"
+    >
+    <button type="button" id="limparPesquisaAdmin" title="Limpar">×</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Código</th>
+<th>Processo</th>
+<th>Localização</th>
+<th>Descrição</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="tabelaAdmin"></tbody>
+</table>
+</div>
+
+</section>
+
+</section>
+
+</main>
 
 </body>
 </html>
